@@ -1,7 +1,5 @@
 package ir.ugstudio.memorizesent;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import java.util.LinkedList;
@@ -29,10 +27,7 @@ public class SentenceViewModel {
         subscription.add(this.dataModel.getSentenceStream()
 //                .subscribeOn(Schedulers.computation())
 //                .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(sentence -> {
-                            sentences.add(sentence);
-                            Log.d("TAG", "here adding to queue " + sentence);
-                        })
+                        .subscribe(sentence -> sentences.add(sentence))
         );
     }
 
@@ -42,7 +37,6 @@ public class SentenceViewModel {
     }
 
     public void repeatFinished() {
-        System.out.println("Tagg" + sentences.size());
         if (sentences.size() > 0) {
             sentenceSubject.onNext(sentences.remove());
         }
