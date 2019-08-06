@@ -5,9 +5,9 @@ import androidx.annotation.NonNull;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import rx.Observable;
-import rx.subjects.BehaviorSubject;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.subjects.BehaviorSubject;
 
 
 public class SentenceViewModel {
@@ -19,12 +19,12 @@ public class SentenceViewModel {
 
     @NonNull
     private final BehaviorSubject<String> sentenceSubject = BehaviorSubject.create();
-    private CompositeSubscription subscription = new CompositeSubscription();
+    private CompositeDisposable disposable = new CompositeDisposable();
 
     public SentenceViewModel(@NonNull DataModel dataModel) {
         this.dataModel = dataModel;
 
-        subscription.add(this.dataModel.getSentenceStream()
+        disposable.add(this.dataModel.getSentenceStream()
 //                .subscribeOn(Schedulers.computation())
 //                .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(sentence -> sentences.add(sentence))
@@ -33,7 +33,7 @@ public class SentenceViewModel {
 
     @NonNull
     public Observable<String> getSentenceStream() {
-        return sentenceSubject.asObservable();
+        return sentenceSubject;
     }
 
     public void repeatFinished() {

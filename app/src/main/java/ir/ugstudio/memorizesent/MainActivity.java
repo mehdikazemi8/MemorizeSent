@@ -7,16 +7,16 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
     @Nullable
     private SentenceViewModel viewModel;
 
-    private CompositeSubscription subscription;
+    private CompositeDisposable disposable;
 
     private Button showNext;
     private TextView sentence;
@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
     private void bind() {
         assert viewModel != null;
 
-        subscription = new CompositeSubscription();
+        disposable = new CompositeDisposable();
 
-        subscription.add(viewModel
+        disposable.add(viewModel
                 .getSentenceStream()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,11 +63,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void unBind() {
-        subscription.unsubscribe();
+        disposable.dispose();
     }
 
     private DataModel getDataModel() {
         return ((SentenceApplication) getApplication()).getDataModel();
     }
-
 }

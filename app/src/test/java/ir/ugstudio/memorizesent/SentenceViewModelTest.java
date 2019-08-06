@@ -5,8 +5,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import rx.Observable;
-import rx.observers.TestSubscriber;
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.subscribers.TestSubscriber;
 
 import static org.mockito.Mockito.when;
 
@@ -23,13 +24,13 @@ public class SentenceViewModelTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        when(dataModel.getSentenceStream()).thenReturn(Observable.from(new String[]{SAMPLE_SENTENCE_1, SAMPLE_SENTENCE_2}));
+        when(dataModel.getSentenceStream()).thenReturn(Observable.fromArray(SAMPLE_SENTENCE_1, SAMPLE_SENTENCE_2));
         viewModel = new SentenceViewModel(dataModel);
     }
 
     @Test
     public void getSentenceStream_emits_whenRepeatFinishedIsCalled() {
-        TestSubscriber<String> testSubscriber = new TestSubscriber<>();
+        TestObserver<String> testSubscriber = new TestObserver<>();
 
         viewModel.getSentenceStream().subscribe(testSubscriber);
 

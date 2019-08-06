@@ -2,8 +2,7 @@ package ir.ugstudio.memorizesent;
 
 import androidx.annotation.NonNull;
 
-import rx.Observable;
-
+import io.reactivex.Observable;
 
 public class DataModel {
 
