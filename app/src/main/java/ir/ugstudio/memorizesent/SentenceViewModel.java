@@ -8,6 +8,7 @@ import java.util.Queue;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subscribers.DefaultSubscriber;
 
 
 public class SentenceViewModel {

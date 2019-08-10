@@ -2,35 +2,52 @@ package ir.ugstudio.memorizesent;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Nullable
-    private SentenceViewModel viewModel;
+    private CompositeDisposable compositeDisposable;
+    private Button memorizeButton;
+    private Button scrambleButton;
 
-    private CompositeDisposable disposable;
+    private MainViewModel mainViewModel;
 
-    private Button showNext;
-    private TextView sentence;
+//    @Nullable
+//    private SentenceViewModel viewModel;
+
+//    private CompositeDisposable disposable;
+
+//    private Button showNext;
+//    private TextView sentence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewModel = new SentenceViewModel(getDataModel());
-        showNext = findViewById(R.id.show_next);
-        sentence = findViewById(R.id.sentence);
+        compositeDisposable = new CompositeDisposable();
+        mainViewModel = new MainViewModel();
 
-        showNext.setOnClickListener(view -> viewModel.repeatFinished());
+        findViews();
+        setOnClickListeners();
+
+//        viewModel = new SentenceViewModel(getDataModel());
+//        showNext = findViewById(R.id.show_next);
+//        sentence = findViewById(R.id.sentence);
+//
+//        showNext.setOnClickListener(view -> viewModel.repeatFinished());
+    }
+
+    private void findViews() {
+        memorizeButton = findViewById(R.id.memorize_button);
+        scrambleButton = findViewById(R.id.scramble_button);
+    }
+
+    private void setOnClickListeners() {
+        memorizeButton.setOnClickListener(view -> mainViewModel.memorizeClicked());
     }
 
     @Override
@@ -45,6 +62,27 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    private void bind() {
+        compositeDisposable.add(mainViewModel.getMemorizeStream().subscribe(this::openMemorizeFragment));
+        compositeDisposable.add(mainViewModel.getScrambleStream().subscribe(this::openScrambleFragment));
+    }
+
+    private void openScrambleFragment(Boolean aBoolean) {
+    }
+
+    private void openMemorizeFragment(Object aBoolean) {
+        MemorizeFragment fragment = MemorizeFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void unBind() {
+        compositeDisposable.dispose();
+    }
+
+    /*
     private void bind() {
         assert viewModel != null;
 
@@ -69,4 +107,5 @@ public class MainActivity extends AppCompatActivity {
     private DataModel getDataModel() {
         return ((SentenceApplication) getApplication()).getDataModel();
     }
+    */
 }

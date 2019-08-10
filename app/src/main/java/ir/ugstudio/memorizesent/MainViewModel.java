@@ -2,17 +2,19 @@ package ir.ugstudio.memorizesent;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.CompletableSubject;
+import io.reactivex.subjects.PublishSubject;
 
 class MainViewModel {
 
-    BehaviorSubject<Boolean> memorizeSubject = BehaviorSubject.create();
-    BehaviorSubject<Boolean> scrambleSubject = BehaviorSubject.create();
+    PublishSubject<Boolean> memorizeSubject = PublishSubject.create();
+    PublishSubject<Boolean> scrambleSubject = PublishSubject.create();
 
     public void memorizeClicked() {
         memorizeSubject.onNext(true);
     }
 
-    public Observable<Boolean> getMemorizeStream() {
+    public PublishSubject<Boolean> getMemorizeStream() {
         return memorizeSubject;
     }
 
@@ -20,7 +22,7 @@ class MainViewModel {
         scrambleSubject.onNext(true);
     }
 
-    public Observable<Boolean> getScrambleStream() {
+    public PublishSubject<Boolean> getScrambleStream() {
         return scrambleSubject;
     }
 }
