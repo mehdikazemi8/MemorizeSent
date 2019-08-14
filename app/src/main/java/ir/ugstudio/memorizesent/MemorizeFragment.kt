@@ -38,16 +38,6 @@ class MemorizeFragment : Fragment() {
         sentenceViewModel.repeatFinished()
     }
 
-    override fun onStart() {
-        super.onStart()
-        bind()
-    }
-
-    override fun onStop() {
-        unBind()
-        super.onStop()
-    }
-
     private fun bind() {
         compositeDisposable.add(sentenceViewModel.sentenceStream
                 .subscribeOn(Schedulers.computation())
@@ -64,11 +54,13 @@ class MemorizeFragment : Fragment() {
     }
 
     override fun onPause() {
+        unBind()
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
+        bind()
     }
 
     companion object {

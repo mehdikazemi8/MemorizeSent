@@ -3,4 +3,5 @@
     <string name="show_next">Show next</string>
     <string name="start_memorize">Memorizing Mode</string>
     <string name="start_scramble">Scrambled Sentences</string>
+    <string name="repeat_finished">Repeat Finished</string>
 </resources>

@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
 public class SentenceViewModelTest {
 
     private final String SAMPLE_SENTENCE_1 = "Hi there sample sentence here";
-    private final String SAMPLE_SENTENCE_2 = "now 2";
+    private final String SAMPLE_SENTENCE_2 = "now this is sentence 2";
 
     @Mock
     private DataModel dataModel;
@@ -40,6 +40,25 @@ public class SentenceViewModelTest {
 
         viewModel.repeatFinished();
         testSubscriber.assertValues(SAMPLE_SENTENCE_1, SAMPLE_SENTENCE_2);
+    }
+
+    @Test
+    public void getScrambledSentenceStream_emits_whenRepeatScrambleFinishedIsCalled() {
+        TestObserver<String> testSubscriber = new TestObserver<>();
+
+        viewModel.getScrambleSentenceStream().subscribe(testSubscriber);
+
+        viewModel.repeatScrambleFinished();
+        testSubscriber.assertNoErrors();
+        testSubscriber.assertValueCount(1);
+
+        viewModel.repeatScrambleFinished();
+        testSubscriber.assertValueCount(2);
+    }
+
+    @Test
+    public void testScrambleMethod() {
+        assert !SAMPLE_SENTENCE_2.equals(viewModel.scramble(SAMPLE_SENTENCE_2));
     }
 }
 

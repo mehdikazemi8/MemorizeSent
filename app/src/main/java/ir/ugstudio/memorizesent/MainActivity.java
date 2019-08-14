@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setOnClickListeners() {
         memorizeButton.setOnClickListener(view -> mainViewModel.memorizeClicked());
+        scrambleButton.setOnClickListener(view -> mainViewModel.scrambleClicked());
     }
 
     @Override
@@ -68,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openScrambleFragment(Boolean aBoolean) {
+        ScrambleFragment fragment = ScrambleFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void openMemorizeFragment(Object aBoolean) {

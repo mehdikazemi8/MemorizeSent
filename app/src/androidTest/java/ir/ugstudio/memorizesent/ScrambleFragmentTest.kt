@@ -11,17 +11,18 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class MemorizeFragmentTest {
+class ScrambleFragmentTest {
 
     @get:Rule
     val activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
     fun testStartStateOfFragment() {
-        onView(withId(R.id.memorize_button)).perform(click())
-        onView(withId(R.id.show_next)).check(matches(isDisplayed()))
-        onView(withId(R.id.show_next)).check(matches(withText(R.string.show_next)))
-        onView(withId(R.id.sentence)).check(matches(withText("Hey Listeners, it’s Reid.")))
+        onView(withId(R.id.scramble_button)).perform(click())
+        onView(withId(R.id.scrambled_sentence)).check(matches(isDisplayed()))
+        onView(withId(R.id.repeat_scrambled_finished)).check(matches(isDisplayed()))
+        onView(withId(R.id.repeat_scrambled_finished)).check(matches(withText(R.string.repeat_finished)))
     }
 
+    // todo, write a test to check whether the text on scrambled_sentence changes by clicking or not
 }
